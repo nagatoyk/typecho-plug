@@ -1,6 +1,8 @@
 <?php
 /**
- * <p>哔哩哔哩转换<strong>&lt;bilibili&gt;av(id)&lt;/bilibili&gt;</strong>即可</p>
+ * <p>哔哩哔哩转换</p>
+ * <p>使用<strong>&lt;bilibili&gt;av(id)&lt;/bilibili&gt;</strong>或</p>
+ * <p>使用<strong>&lt;bltv&gt;http://www.bilibili.tv/video/avid&lt;/bltv&gt;</strong>即可</p>
  * @package 哔哩哔哩转换
  * @author 镜花水月
  * @version 1.0.0 beta
@@ -83,6 +85,7 @@ class bilibili implements Typecho_Plugin_Interface{
 		$text = empty($lastResult) ? $text : $lastResult;
 		if($widget instanceof Widget_Archive){
 			$text = preg_replace('/<(bilibili)>av(\d+)<\/\\1>/is', "<embed height=\"400\" width=\"480\" quality=\"high\" allowfullscreen=\"true\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" src=\"http://static.hdslb.com/miniloader.swf\" flashvars=\"aid=\\2&page=1\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\"></embed>", $text);
+			$text = preg_replace('/<(bltv)>.*?av(\d+)<\/\\1>/is', "<embed height=\"400\" width=\"480\" quality=\"high\" allowfullscreen=\"true\" type=\"application/x-shockwave-flash\" wmode=\"transparent\" src=\"http://static.hdslb.com/miniloader.swf\" flashvars=\"aid=\\2&page=1\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\"></embed>", $text);
 		}
 		return $text;
 	}

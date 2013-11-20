@@ -1,9 +1,12 @@
 <?php
 /**
- * <p>优酷视频转无广告版<strong>&lt;yk&gt;http://v.youku.com/v_show/id_...html&lt;/yk&gt;</strong>即可</p>
+ * <p>优酷视频转无广告版</p>
+ * <p>使用<strong>&lt;yk&gt;id(id)&lt;/yk&gt;</strong></p>
+ * <p>或使用<strong>&lt;yknad&gt;优酷视频页面地址&lt;/yknad&gt;</strong></p>
+ * <p>下步计划准备土豆视频转换</p>
  * @package 优酷转无广告
  * @author 镜花水月
- * @version 1.0.1
+ * @version 0.0.2
  * @dependence 9.9.2-*
  * @link http://kloli.tk/blog
  */
@@ -87,6 +90,7 @@ class YkSwfNoAd implements Typecho_Plugin_Interface{
 		$text = empty($lastResult) ? $text : $lastResult;
 		if($widget instanceof Widget_Archive){
 			$text = preg_replace("/<(yk)>id(.*?)<\/\\1>/is", "<embed src=\"http://lab.yukimax.com/yk-\\2.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>", $text);
+			$text = preg_replace("/<(yknad)>.*\/id_(.*?).html<\/\\1>/", "<embed src=\"http://lab.yukimax.com/yk-\\2.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>", $text);
 		}
 		return $text;
 	}
