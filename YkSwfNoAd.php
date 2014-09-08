@@ -1,12 +1,9 @@
 <?php
 /**
  * <p>优酷视频转无广告版</p>
- * <p>使用<strong>&lt;yk&gt;id(id)&lt;/yk&gt;</strong></p>
- * <p>或使用<strong>&lt;yknad&gt;优酷视频页面地址&lt;/yknad&gt;</strong></p>
- * <p>下步计划准备土豆视频转换</p>
  * @package 优酷转无广告
  * @author 镜花水月
- * @version 0.0.2
+ * @version 0.0.3
  * @dependence 9.9.2-*
  * @link http://kloli.tk/blog
  */
@@ -64,11 +61,7 @@ class YkSwfNoAd implements Typecho_Plugin_Interface{
 	 * @return string
 	 */
 	public static function toVisualEditor($content){
-		$url = preg_replace("/<(yknad)>(.*?)<\/\\1>/is", "\\2", $content);
-		$ykurl = parse_url($url);
-		$ykid = explode('id_', str_replace('.html', '', $ykurl['path']));
-		$ykid = $ykid[1];
-		return preg_replace("/<(yknad)>(.*?)<\/\\1>/is", "<embed src=\"http://lab.yukimax.com/yk-".$ykid.".swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>", $content);
+		return preg_replace("/http\:\/\/v\.youku\.com\/v_show\/id_(\w+)\.html/is", "<embed src=\"http://lab.yukimax.com/yk-\\1.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>", $content);
 	}
 	/**
 	 * 将可视化代码转化为伪可视化代码
@@ -78,7 +71,7 @@ class YkSwfNoAd implements Typecho_Plugin_Interface{
 	 * @return string
 	 */
 	public static function toCodeEditor($content){
-		// return preg_replace("/<(object)[^>]*data=\"{$swfUrl}\?ykid\=([^\">]+)\"[^>]*>(.*?)<\/\\1>/is", "<mp3>\\2</mp3>", $content);
+		return preg_replace("/<(embed)[^>]*src=\"http\:\/\/lab\.yukimax\.com\/yk-([^\">]+)\"[^>]*>(.*?)<\/\\1>/is", "<pre>视频源:http://v.youku.com/v_show/id_\\2/</pre>", $content);
 	}
 	/**
 	 * 插件实现方法
@@ -89,8 +82,7 @@ class YkSwfNoAd implements Typecho_Plugin_Interface{
 	public static function parse($text, $widget, $lastResult){
 		$text = empty($lastResult) ? $text : $lastResult;
 		if($widget instanceof Widget_Archive){
-			$text = preg_replace("/<(yk)>id(.*?)<\/\\1>/is", "<embed src=\"http://lab.yukimax.com/yk-\\2.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>", $text);
-			$text = preg_replace("/<(yknad)>.*\/id_(.*?).html<\/\\1>/", "<embed src=\"http://lab.yukimax.com/yk-\\2.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>", $text);
+			$text = preg_replace("/<(a)[^>]*href=\"http\:\/\/v\.youku\.com\/[^>]*\"[^>]*>http\:\/\/v\.youku\.com\/v_show\/id_([^>]*)\.html<\/\\1>/is", "<p><embed src=\"http://player.youku.com/player.php/sid/\\2/v.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"100%\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed></p>", $text);
 		}
 		return $text;
 	}
