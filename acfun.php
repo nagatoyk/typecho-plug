@@ -78,7 +78,7 @@ class acfun implements Typecho_Plugin_Interface{
 				$vid = self::getvid($aid[2][$i]);
 				$text = str_replace($aid[0][$i], '<iframe style="width:100%;height:400px;" src="https://ssl.acfun.tv/block-player-homura.html#vid='.$vid.';from=http://www.acfun.tv;postMessage=1;autoplay=0;hint=A娘弹幕视频" id="ACFlashPlayer-re" frameborder="0"></iframe>', $text);
 			}*/
-			$text = preg_replace('/<a[^>]*href=\"http\:\/\/www\.acfun\.(tv|com)\/[^>]*\"[^>]*>http\:\/\/[^>]*\/v\/ac([\d]+_[\d]+|[\d]+)<\/a>/is', '<object type="application/x-shockwave-flash" data="http://static.acfun.mm111.net/dotnet/20130418/player/ACFlashPlayer.out.swf" width="100%" height="400"><param name="allowfullscreen" value="true"><param name="allowscriptaccess" value="always"><param name="seamlesstabbing" value="true"><param name="wmode" value="direct"><param name="allowFullscreenInteractive" value="true"><param name="flashvars" value="type=page&url=http://www.acfun.tv/v/ac$1"></object>', $text);
+			$text = preg_replace('/<(a)[^>]*href=\"http\:\/\/www\.acfun\.(tv|com)\/[^>]*\"[^>]*>http\:\/\/[^>]*\/v\/ac([\d]+_[\d]+|[\d]+)<\/\\1>/is', '<object type="application/x-shockwave-flash" data="http://static.acfun.mm111.net/player/ACFlashPlayer.out.swf" width="100%" height="400"><param name="allowfullscreen" value="true"><param name="allowscriptaccess" value="always"><param name="seamlesstabbing" value="true"><param name="wmode" value="direct"><param name="allowFullscreenInteractive" value="true"><param name="flashvars" value="type=page&url=http://www.acfun.tv/v/ac\\3"></object>', $text);
 		}
 		return $text;
 	}
