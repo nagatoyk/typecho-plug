@@ -59,7 +59,7 @@ class acfun implements Typecho_Plugin_Interface{
 	 *
 	 */
 	public static function getvid($path){
-		$url = 'http://www.acfun.tv/'.$path;
+		$url = 'http://www.acfun.tv/v/ac'.$path;
 		$file = file_get_contents($url);
 		preg_match_all("/data-vid=\"([\d]+)\"/is", $file, $out);
 		return $out[1][0];
